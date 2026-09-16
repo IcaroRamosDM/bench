@@ -72,8 +72,45 @@ SignalStatistics analyzeSignal(List<double> values) {
     count: values.length,
     minimum: minimum(values),
     maximum: maximum(values),
+    mean: mean(values),
     peakPoint: peakPoint(values),
     peakToPeak: peakToPeak(values),
     endDelta: endDelta(values),
   );
+}
+
+double mean(List<double> values) {
+  _validateValues(values);
+
+  var scale = 0.0;
+
+  for (final value in values) {
+    final magnitude = value.abs();
+
+    if (magnitude > scale) {
+      scale = magnitude;
+    }
+  }
+
+  if (scale == 0.0) {
+    return 0.0;
+  }
+
+  var sum = 0.0;
+  var correction = 0.0;
+
+  for (final value in values) {
+    final normalized = value / scale;
+    final next = sum + normalized;
+
+    if (sum.abs() >= normalized.abs()) {
+      correction += (sum - next) + normalized;
+    } else {
+      correction += (normalized - next) + sum;
+    }
+
+    sum = next;
+  }
+
+  return ((sum + correction) / values.length) * scale;
 }

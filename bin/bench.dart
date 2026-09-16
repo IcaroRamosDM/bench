@@ -7,6 +7,7 @@ void main() {
   print('Points: ${statistics.count}');
   print('Minimum: ${statistics.minimum}');
   print('Maximum: ${statistics.maximum}');
+  print('Mean: ${statistics.mean}');
   print('Peak point: ${statistics.peakPoint}');
   print('Peak-to-peak: ${statistics.peakToPeak}');
   print('End delta: ${statistics.endDelta}');

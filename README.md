@@ -10,6 +10,7 @@ A Dart command-line project for learning and developing signal-analysis tools.
 - Final-minus-initial delta.
 - Input validation and automated tests.
 - Modular Makefile for formatting, analysis, testing, and compilation.
+- Arithmetic mean.
 
 ## Requirements
 
