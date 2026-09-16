@@ -131,4 +131,22 @@ void main() {
     expect(() => endDelta([-1e308, 1e308]), throwsRangeError);
     expect(() => endDelta([1e308, -1e308]), throwsRangeError);
   });
+
+  test('builds a complete signal statistics report', () {
+    final result = analyzeSignal([-2, 9, 9, 3]);
+
+    expect(result.count, 4);
+    expect(result.minimum, -2.0);
+    expect(result.maximum, 9.0);
+    expect(result.peakPoint, 2);
+    expect(result.peakToPeak, 11.0);
+    expect(result.endDelta, 5.0);
+  });
+
+  test('rejects invalid input when analyzing a signal', () {
+    expect(() => analyzeSignal([]), throwsArgumentError);
+    expect(() => analyzeSignal([1, double.nan, 2]), throwsArgumentError);
+    expect(() => analyzeSignal([double.infinity]), throwsArgumentError);
+    expect(() => analyzeSignal([double.negativeInfinity]), throwsArgumentError);
+  });
 }

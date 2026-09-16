@@ -1,3 +1,5 @@
+import '../model/signal_statistics.dart';
+
 double maximum(List<double> values) {
   _validateValues(values);
 
@@ -63,4 +65,15 @@ double endDelta(List<double> values) {
   }
 
   return result;
+}
+
+SignalStatistics analyzeSignal(List<double> values) {
+  return SignalStatistics(
+    count: values.length,
+    minimum: minimum(values),
+    maximum: maximum(values),
+    peakPoint: peakPoint(values),
+    peakToPeak: peakToPeak(values),
+    endDelta: endDelta(values),
+  );
 }
