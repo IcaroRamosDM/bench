@@ -1,0 +1,10 @@
+# Dart-generated files
+.dart_tool/
+/build/
+/doc/api/
+/coverage/
+
+# Vim temporary files
+*.sw?
+*~
+
