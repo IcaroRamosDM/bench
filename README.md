@@ -13,6 +13,7 @@ A Dart command-line project for learning and developing signal-analysis tools.
 - Arithmetic mean.
 - Root mean square (RMS).
 - Validate JSON singal decoding.
+- JSON file input through the command line.
 
 ## Requirements
 
@@ -25,8 +26,12 @@ A Dart command-line project for learning and developing signal-analysis tools.
 ```bash
 dart pub get
 make build
-./build/bench
+./build/bench examples/nine_points.json
 ```
+
+Input files must contain a JSON object with a non-empty 'values' array of finite numbers.
+
+Use 'make run' to analyze the included example, or 'make run INPUT=path/to/signal.json' to select another file.
 
 `make build` checks formatting, analyzes the code, and runs the tests before compiling.
 
@@ -34,7 +39,7 @@ Use `make help` to list the available commands.
 
 ## Project status
 
-Under active development. The CLI currently analyzes a built-in nine-point example.
+Under active development. The CLI reads JSON signal files and reports basic statistics.
 
 The long-term goal is to port selected Sinalis signal analyses to Dart
 for use on SIM8905E-based Android equipment.
