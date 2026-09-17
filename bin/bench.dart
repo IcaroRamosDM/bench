@@ -7,7 +7,13 @@ import 'package:bench/bench.dart' as bench;
 Future<void> main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('help', abbr: 'h', negatable: false, help: 'Show help.')
-    ..addFlag('json', negatable: false, help: 'Print results as JSON.');
+    ..addFlag('json', negatable: false, help: 'Print results as JSON.')
+    ..addFlag('html', negatable: false, help: 'Print an HTML analysis report.')
+    ..addOption(
+      'criteria',
+      valueHelp: 'file.ini',
+      help: 'Acceptance criteria for --html.',
+    );
 
   final usage = 'Usage: bench [options] <signal.json>\n\n${parser.usage}';
 
@@ -27,6 +33,20 @@ Future<void> main(List<String> arguments) async {
     return;
   }
 
+  final criteriaPath = options['criteria'] as String?;
+
+  if (criteriaPath != null && !options.flag('html')) {
+    stderr.writeln('Argument error: --criteria requires --html.');
+    exitCode = 2;
+    return;
+  }
+
+  if (options.flag('json') && options.flag('html')) {
+    stderr.writeln('Argument error: choose either --json or --html.');
+    exitCode = 2;
+    return;
+  }
+
   if (options.rest.length != 1) {
     stderr.writeln(usage);
     exitCode = 2;
@@ -38,6 +58,27 @@ Future<void> main(List<String> arguments) async {
   try {
     final source = await File(inputPath).readAsString();
     final values = bench.parseSignalJson(source);
+
+    if (options.flag('html')) {
+      var criteria = <bench.Criterion>[];
+
+      if (criteriaPath != null) {
+        try {
+          final criteriaSource = await File(criteriaPath).readAsString();
+          criteria = bench.parseCriteriaIni(criteriaSource);
+        } on FormatException catch (error) {
+          stderr.writeln('Invalid criteria: ${error.message}');
+          exitCode = 1;
+          return;
+        }
+      }
+
+      final report = bench.renderHtmlReport(values, criteria: criteria);
+
+      print(report);
+      return;
+    }
+
     final statistics = bench.analyzeSignal(values);
 
     if (options.flag('json')) {
@@ -61,6 +102,9 @@ Future<void> main(List<String> arguments) async {
     exitCode = 1;
   } on RangeError catch (error) {
     stderr.writeln('Analysis failed: ${error.message}');
+    exitCode = 1;
+  } on ArgumentError catch (error) {
+    stderr.writeln('Invalid criteria: ${error.message}');
     exitCode = 1;
   }
 }
