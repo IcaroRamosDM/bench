@@ -104,3 +104,13 @@ errors exit with code 2.
 
 Developed as a learning and portfolio project. Builds and execution
 currently target Linux. Execution on Android hardware has not been validated.
+
+## Author
+
+**Icaro Ramos Rodrigues dos Santos**
+
+Embedded Systems | Firmware | C | Hardware Design | STM32 | ARM Cortex-M | Linux | Verilog | UVM | Design Verification
+
+GitHub: [https://github.com/IcaroRamosDM](https://github.com/IcaroRamosDM)<br>
+LinkedIn: [https://www.linkedin.com/in/icaro-ramos-r/](https://www.linkedin.com/in/icaro-ramos-r/)<br>
+[icaroelt@gmail.com](mailto:icaroelt@gmail.com)
