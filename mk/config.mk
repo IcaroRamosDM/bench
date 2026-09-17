@@ -1,5 +1,6 @@
 DART ?= dart
 INPUT ?= examples/nine_points.json
+RUN_FLAGS ?=
 
 ENTRY := bin/bench.dart
 BUILD_DIR := build

@@ -1,7 +1,7 @@
 .PHONY: run build clean
 
 run:
-	$(DART) run "$(ENTRY)" "$(INPUT)"
+	$(DART) run "$(ENTRY)" $(RUN_FLAGS) -- "$(INPUT)"
 
 build:	check
 	mkdir -p "$(BUILD_DIR)"

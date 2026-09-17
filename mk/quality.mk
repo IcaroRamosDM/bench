@@ -7,7 +7,7 @@ check-format:
 	$(DART) format --output=none --set-exit-if-changed bin lib test
 
 analyze:
-	$(DART) analyze
+	$(DART) analyze --fatal-infos
 
 test:
 	$(DART) test

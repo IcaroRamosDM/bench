@@ -40,6 +40,9 @@ Use 'make run' to analyze the included example, or 'make run INPUT=path/to/signa
 
 Use `make help` to list the available commands.
 
+Use 'make run RUN_FLAGS=--json' for JSON output.
+Combine it with 'INPUT=path/to/signal.json' to select another input file.
+
 ## Project status
 
 Under active development. The CLI reads JSON signal files and reports basic statistics.

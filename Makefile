@@ -8,12 +8,13 @@ include mk/quality.mk
 
 help:
 	@printf '%s\n' \
-		'make help		Show available commands' \
-		'make run		Run Bench' \
-		'make build		Compile the executable' \
-		'make clean		Remove generated executable files' \
-		'make format		Format Dart source files' \
-		'make analyze		Analyze Dart source files' \
-		'make check-format	Check Dart formatting' \
-		'make check		Run all quality checks' \
-		'make test		Run automated tests'
+		'make help			Show available commands' \
+		'make run			Run Bench' \
+		'make run RUN_FLAGS=--json	Run with JSON output' \
+		'make build			Compile the executable' \
+		'make clean			Remove generated executable files' \
+		'make format			Format Dart source files' \
+		'make analyze			Analyze Dart source files' \
+		'make check-format		Check Dart formatting' \
+		'make check			Run all quality checks' \
+		'make test			Run automated tests'
