@@ -12,6 +12,7 @@ A Dart command-line project for learning and developing signal-analysis tools.
 - Modular Makefile for formatting, analysis, testing, and compilation.
 - Arithmetic mean.
 - Root mean square (RMS).
+- Validate JSON singal decoding.
 
 ## Requirements
 
