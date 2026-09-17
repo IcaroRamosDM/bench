@@ -14,6 +14,7 @@ A Dart command-line project for learning and developing signal-analysis tools.
 - Root mean square (RMS).
 - Validate JSON singal decoding.
 - JSON file input through the command line.
+- Command-line integration tests covering output, errors, and exit codes.
 
 ## Requirements
 
