@@ -18,4 +18,17 @@ class SignalStatistics {
     required this.peakToPeak,
     required this.endDelta,
   });
+
+  Map<String, num> toJson() {
+    return {
+      'count': count,
+      'minimum': minimum,
+      'maximum': maximum,
+      'mean': mean,
+      'rms': rms,
+      'peakPoint': peakPoint,
+      'peakToPeak': peakToPeak,
+      'endDelta': endDelta,
+    };
+  }
 }

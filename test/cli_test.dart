@@ -55,7 +55,7 @@ void main() {
       final result = await _runBench([option]);
 
       expect(result.exitCode, 0, reason: result.stderr.toString());
-      expect(result.stdout, contains('Usage: bench <signal.json>'));
+      expect(result.stdout, contains('Usage: bench [options] <signal.json>'));
       expect(result.stderr, isEmpty);
     }
   });
@@ -69,7 +69,7 @@ void main() {
 
       expect(result.exitCode, 2, reason: result.stderr.toString());
       expect(result.stdout, isEmpty);
-      expect(result.stderr, contains('Usage: bench <signal.json>'));
+      expect(result.stderr, contains('Usage: bench [options] <signal.json>'));
     }
   });
 
@@ -108,5 +108,49 @@ void main() {
     expect(result.exitCode, 1, reason: result.stderr.toString());
     expect(result.stdout, isEmpty);
     expect(result.stderr, startsWith('Analysis failed:'));
+  });
+
+  test('prints a machine-readable JSON analysis', () async {
+    final file = await _writeSignal(
+      temporaryDirectory,
+      '{"values":[0,-3,4,0]}',
+    );
+
+    final result = await _runBench(['--json', file.path]);
+
+    expect(result.exitCode, 0, reason: result.stderr.toString());
+    expect(result.stderr, isEmpty);
+
+    final Object? decoded = jsonDecode(result.stdout as String);
+
+    expect(decoded, containsPair('count', 4));
+    expect(decoded, containsPair('rms', 2.5));
+  });
+
+  test('rejects invalid options and missing or extra input paths', () async {
+    for (final arguments in [
+      ['--unknown'],
+      ['--json'],
+      ['--json', 'one.json', 'two.json'],
+    ]) {
+      final result = await _runBench(arguments);
+
+      expect(result.exitCode, 2, reason: result.stderr.toString());
+      expect(result.stdout, isEmpty);
+      expect(result.stderr, contains('Usage: bench [options] <signal.json>'));
+    }
+  });
+
+  test('keeps JSON mode failures on stderr', () async {
+    final file = await _writeSignal(
+      temporaryDirectory,
+      '{"values":[1,"oops",3]}',
+    );
+
+    final result = await _runBench(['--json', file.path]);
+
+    expect(result.exitCode, 1, reason: result.stderr.toString());
+    expect(result.stdout, isEmpty);
+    expect(result.stderr, startsWith('Invalid signal:'));
   });
 }
