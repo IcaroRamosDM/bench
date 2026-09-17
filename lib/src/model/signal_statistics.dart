@@ -3,6 +3,7 @@ class SignalStatistics {
   final double minimum;
   final double maximum;
   final double mean;
+  final double rms;
   final int peakPoint;
   final double peakToPeak;
   final double endDelta;
@@ -12,6 +13,7 @@ class SignalStatistics {
     required this.minimum,
     required this.maximum,
     required this.mean,
+    required this.rms,
     required this.peakPoint,
     required this.peakToPeak,
     required this.endDelta,

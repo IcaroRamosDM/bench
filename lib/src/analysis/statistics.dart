@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import '../model/signal_statistics.dart';
 
 double maximum(List<double> values) {
@@ -73,6 +75,7 @@ SignalStatistics analyzeSignal(List<double> values) {
     minimum: minimum(values),
     maximum: maximum(values),
     mean: mean(values),
+    rms: rms(values),
     peakPoint: peakPoint(values),
     peakToPeak: peakToPeak(values),
     endDelta: endDelta(values),
@@ -113,4 +116,41 @@ double mean(List<double> values) {
   }
 
   return ((sum + correction) / values.length) * scale;
+}
+
+double rms(List<double> values) {
+  _validateValues(values);
+
+  var scale = 0.0;
+
+  for (final value in values) {
+    final magnitude = value.abs();
+
+    if (magnitude > scale) {
+      scale = magnitude;
+    }
+  }
+
+  if (scale == 0.0) {
+    return 0.0;
+  }
+
+  var sumSquares = 0.0;
+  var correction = 0.0;
+
+  for (final value in values) {
+    final normalized = value / scale;
+    final square = normalized * normalized;
+    final next = sumSquares + square;
+
+    if (sumSquares >= square) {
+      correction += (sumSquares - next) + square;
+    } else {
+      correction += (square - next) + sumSquares;
+    }
+
+    sumSquares = next;
+  }
+
+  return math.sqrt((sumSquares + correction) / values.length) * scale;
 }

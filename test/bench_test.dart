@@ -139,6 +139,7 @@ void main() {
     expect(result.minimum, -2.0);
     expect(result.maximum, 9.0);
     expect(result.mean, closeTo(4.75, 1e-12));
+    expect(result.rms, closeTo(6.614378277661476, 1e-12));
     expect(result.peakPoint, 2);
     expect(result.peakToPeak, 11.0);
     expect(result.endDelta, 5.0);
@@ -186,6 +187,38 @@ void main() {
       double.negativeInfinity,
     ]) {
       expect(() => mean([1, value, 2]), throwsArgumentError);
+    }
+  });
+
+  test('calculates the RMS of the ninte-point signal', () {
+    const values = <double>[0, 629, 1069, 1867, 2373, 2158, 1390, 902, 8];
+
+    expect(rms(values), closeTo(1416.4883024970982, 1e-9));
+  });
+
+  test('handles alternating signs and different amplitudes', () {
+    expect(rms([-2, 2, -2, 2]), 2.0);
+    expect(rms([0, -3, 4, 0]), 2.5);
+  });
+
+  test('avoids overflow when calculating RMS', () {
+    expect(rms([1e308, 1e308]), 1e308);
+    expect(rms([1e308, -1e308]), 1e308);
+  });
+
+  test('preserves the RMS of very small signals', () {
+    expect(rms([1e-300, -1e-300]), 1e-300);
+  });
+
+  test('rejects invalid input when calculating RMS', () {
+    expect(() => rms([]), throwsArgumentError);
+
+    for (final value in [
+      double.nan,
+      double.infinity,
+      double.negativeInfinity,
+    ]) {
+      expect(() => rms([1, value, 2]), throwsArgumentError);
     }
   });
 }
