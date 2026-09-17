@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../model/signal_statistics.dart';
+import 'compensated_sum.dart';
 
 double maximum(List<double> values) {
   _validateValues(values);
@@ -85,42 +86,41 @@ SignalStatistics analyzeSignal(List<double> values) {
 double mean(List<double> values) {
   _validateValues(values);
 
-  var scale = 0.0;
-
-  for (final value in values) {
-    final magnitude = value.abs();
-
-    if (magnitude > scale) {
-      scale = magnitude;
-    }
-  }
+  final scale = _maximumMagnitude(values);
 
   if (scale == 0.0) {
     return 0.0;
   }
 
-  var sum = 0.0;
-  var correction = 0.0;
+  final sum = CompensatedSum();
 
   for (final value in values) {
-    final normalized = value / scale;
-    final next = sum + normalized;
-
-    if (sum.abs() >= normalized.abs()) {
-      correction += (sum - next) + normalized;
-    } else {
-      correction += (normalized - next) + sum;
-    }
-
-    sum = next;
+    sum.add(value / scale);
   }
 
-  return ((sum + correction) / values.length) * scale;
+  return (sum.value / values.length) * scale;
 }
 
 double rms(List<double> values) {
   _validateValues(values);
 
+  final scale = _maximumMagnitude(values);
+
+  if (scale == 0.0) {
+    return 0.0;
+  }
+
+  final sumSquares = CompensatedSum();
+
+  for (final value in values) {
+    final normalized = value / scale;
+    sumSquares.add(normalized * normalized);
+  }
+
+  return math.sqrt(sumSquares.value / values.length) * scale;
+}
+
+double _maximumMagnitude(List<double> values) {
   var scale = 0.0;
 
   for (final value in values) {
@@ -131,26 +131,5 @@ double rms(List<double> values) {
     }
   }
 
-  if (scale == 0.0) {
-    return 0.0;
-  }
-
-  var sumSquares = 0.0;
-  var correction = 0.0;
-
-  for (final value in values) {
-    final normalized = value / scale;
-    final square = normalized * normalized;
-    final next = sumSquares + square;
-
-    if (sumSquares >= square) {
-      correction += (sumSquares - next) + square;
-    } else {
-      correction += (square - next) + sumSquares;
-    }
-
-    sumSquares = next;
-  }
-
-  return math.sqrt((sumSquares + correction) / values.length) * scale;
+  return scale;
 }
