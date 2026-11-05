@@ -1,5 +1,7 @@
 # Bench
 
+[![Checks](https://github.com/IcaroRamosDM/bench/actions/workflows/checks.yml/badge.svg)](https://github.com/IcaroRamosDM/bench/actions/workflows/checks.yml)
+
 A Dart command-line tool for numerical signal analysis and configurable
 acceptance testing.
 
@@ -107,10 +109,11 @@ currently target Linux. Execution on Android hardware has not been validated.
 
 ## Author
 
-**Icaro Ramos Rodrigues dos Santos**
+**Icaro Ramos Rodrigues dos Santos**<br>
+Electronic Engineer
 
-Embedded Systems | Firmware | C | Hardware Design | STM32 | ARM Cortex-M | Linux | Verilog | UVM | Design Verification
+Embedded Systems | Firmware | C | C++ | Python | Dart | Assembly | Hardware Design | PCB Design | STM32 | ARM Cortex-M | Linux | Windows | RISC-V | Verilog | SystemVerilog | UVM | Design Verification | Instrumentation | Signal Processing | Qt | FLTK
 
-GitHub: [https://github.com/IcaroRamosDM](https://github.com/IcaroRamosDM)<br>
-LinkedIn: [https://www.linkedin.com/in/icaro-ramos-r/](https://www.linkedin.com/in/icaro-ramos-r/)<br>
+GitHub: [IcaroRamosDM](https://github.com/IcaroRamosDM)<br>
+LinkedIn: [icaro-ramos-r](https://www.linkedin.com/in/icaro-ramos-r/)<br>
 [icaroelt@gmail.com](mailto:icaroelt@gmail.com)
